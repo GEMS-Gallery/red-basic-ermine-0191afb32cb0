@@ -22,9 +22,9 @@ const DirectionButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-type Position = { x: number; y: number };
+type Position = { x: bigint; y: bigint };
 type Element = { id: string; name: string; position: Position };
-type OfficeState = { layout: number[][]; elements: Element[]; characterPosition: Position };
+type OfficeState = { layout: bigint[][]; elements: Element[]; characterPosition: Position };
 
 const App: React.FC = () => {
   const [officeState, setOfficeState] = useState<OfficeState | null>(null);
@@ -59,12 +59,12 @@ const App: React.FC = () => {
   const moveCharacter = async (dx: number, dy: number) => {
     if (!officeState) return;
 
-    const newX = officeState.characterPosition.x + dx;
-    const newY = officeState.characterPosition.y + dy;
+    const newX = Number(officeState.characterPosition.x) + dx;
+    const newY = Number(officeState.characterPosition.y) + dy;
 
     try {
       setLoading(true);
-      await backend.moveCharacter(newX, newY);
+      await backend.moveCharacter(BigInt(newX), BigInt(newY));
       await updateOfficeState();
     } catch (err) {
       setError('Failed to move character');
@@ -81,25 +81,25 @@ const App: React.FC = () => {
     if (!ctx) return null;
 
     const tileSize = 50;
-    canvas.width = officeState.layout[0].length * tileSize;
-    canvas.height = officeState.layout.length * tileSize;
+    canvas.width = Number(officeState.layout[0].length) * tileSize;
+    canvas.height = Number(officeState.layout.length) * tileSize;
 
     officeState.layout.forEach((row, y) => {
       row.forEach((tile, x) => {
-        ctx.fillStyle = tile === 1 ? '#000' : '#fff';
-        ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+        ctx.fillStyle = Number(tile) === 1 ? '#000' : '#fff';
+        ctx.fillRect(Number(x) * tileSize, Number(y) * tileSize, tileSize, tileSize);
       });
     });
 
     officeState.elements.forEach((element) => {
       ctx.fillStyle = '#F5A623';
-      ctx.fillRect(element.position.x * tileSize, element.position.y * tileSize, tileSize, tileSize);
+      ctx.fillRect(Number(element.position.x) * tileSize, Number(element.position.y) * tileSize, tileSize, tileSize);
     });
 
     ctx.fillStyle = '#4A90E2';
     ctx.fillRect(
-      officeState.characterPosition.x * tileSize,
-      officeState.characterPosition.y * tileSize,
+      Number(officeState.characterPosition.x) * tileSize,
+      Number(officeState.characterPosition.y) * tileSize,
       tileSize,
       tileSize
     );
