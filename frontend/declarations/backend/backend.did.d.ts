@@ -4,11 +4,17 @@ import type { IDL } from '@dfinity/candid';
 
 export interface Element {
   'id' : string,
-  'name' : string,
   'position' : Position,
+  'elementType' : ElementType,
 }
+export type ElementType = { 'floor' : null } |
+  { 'desk' : null } |
+  { 'chair' : null } |
+  { 'wall' : null } |
+  { 'computer' : null } |
+  { 'plant' : null };
 export interface OfficeState {
-  'layout' : Array<Array<bigint>>,
+  'layout' : Array<Array<ElementType>>,
   'characterPosition' : Position,
   'elements' : Array<Element>,
 }

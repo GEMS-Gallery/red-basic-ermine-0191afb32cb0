@@ -17,12 +17,21 @@ type OfficeState =
  record {
    characterPosition: Position;
    elements: vec Element;
-   layout: vec vec nat;
+   layout: vec vec ElementType;
+ };
+type ElementType = 
+ variant {
+   chair;
+   computer;
+   desk;
+   floor;
+   plant;
+   wall;
  };
 type Element = 
  record {
+   elementType: ElementType;
    id: text;
-   name: text;
    position: Position;
  };
 service : {

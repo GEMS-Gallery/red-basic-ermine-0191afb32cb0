@@ -1,12 +1,20 @@
 export const idlFactory = ({ IDL }) => {
+  const ElementType = IDL.Variant({
+    'floor' : IDL.Null,
+    'desk' : IDL.Null,
+    'chair' : IDL.Null,
+    'wall' : IDL.Null,
+    'computer' : IDL.Null,
+    'plant' : IDL.Null,
+  });
   const Position = IDL.Record({ 'x' : IDL.Nat, 'y' : IDL.Nat });
   const Element = IDL.Record({
     'id' : IDL.Text,
-    'name' : IDL.Text,
     'position' : Position,
+    'elementType' : ElementType,
   });
   const OfficeState = IDL.Record({
-    'layout' : IDL.Vec(IDL.Vec(IDL.Nat)),
+    'layout' : IDL.Vec(IDL.Vec(ElementType)),
     'characterPosition' : Position,
     'elements' : IDL.Vec(Element),
   });
