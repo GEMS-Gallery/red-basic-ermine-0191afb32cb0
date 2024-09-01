@@ -1,0 +1,33 @@
+type Result_1 = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type Position = 
+ record {
+   x: nat;
+   y: nat;
+ };
+type OfficeState = 
+ record {
+   characterPosition: Position;
+   elements: vec Element;
+   layout: vec vec nat;
+ };
+type Element = 
+ record {
+   id: text;
+   name: text;
+   position: Position;
+ };
+service : {
+  getOfficeState: () -> (OfficeState) query;
+  initializeOffice: () -> (Result);
+  interactWithElement: (text) -> (Result_1);
+  moveCharacter: (nat, nat) -> (Result);
+}
